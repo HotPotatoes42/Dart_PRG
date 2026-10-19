@@ -1,19 +1,26 @@
 import 'dart:math';
+
 import 'character.dart';
 
 class Warrior extends Character {
   final int armor;
   Warrior({required String name})
-  : armor = 5,
-    super(name: name, hp: 120);
+    : armor = 5,
+      super(name: name, hp: 120);
   @override
   int attack() {
     return 15 + Random().nextInt(11);
   }
+
+  @override
   void takeDamage(int damage) {
-    int reduced = (damage - armor).clamp(0,damage);
+    int reduced = (damage - armor).clamp(
+      0,
+      damage,
+    );
     super.takeDamage(reduced);
   }
+
   @override
   String toString() {
     return '⚔ Воин $name (брони: $armor)';
@@ -24,9 +31,9 @@ class Mage extends Character {
   int mana;
   final int maxMana;
   Mage({required String name})
-  : mana = 60,
-    maxMana = 60,
-    super(name:name ,hp:70);
+    : mana = 60,
+      maxMana = 60,
+      super(name: name, hp: 70);
   @override
   int attack() {
     if (mana >= 20) {
@@ -36,6 +43,7 @@ class Mage extends Character {
       return 5 + Random().nextInt(6);
     }
   }
+
   @override
   String toString() {
     return '� Маг $name (мана: $mana/$maxMana)';
@@ -46,10 +54,11 @@ class Archer extends Character {
   final double critChance;
   Archer({required String name})
     : critChance = 0.3,
-      super(name:name,hp: 90);
+      super(name: name, hp: 90);
   @override
   int attack() {
-    bool isCrit = Random().nextDouble() < critChance;
+    bool isCrit =
+        Random().nextDouble() < critChance;
     int base = 10 + Random().nextInt(11);
     if (isCrit) {
       print(' � Критический удар!');
@@ -57,6 +66,7 @@ class Archer extends Character {
     }
     return base;
   }
+
   @override
   String toString() {
     return ' � Лучник $name (Шанс крита: ${(critChance * 100).round()}%)';
